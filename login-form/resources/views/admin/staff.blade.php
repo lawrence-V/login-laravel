@@ -10,9 +10,9 @@
 <body>
  
     <div class="container ">
-        <div class="row">
+        <div class="row h-100 justify-content-center align-items-center align-content-center flex-column">
             <div class="col-md-6 col-md-offset-3">
-                <h4>Dashboard</h4><hr>
+                <h4 class="pt-5">Dashboard</h4><hr>
                 <table class="table table-hover">
                     <thead>
                         <th>Name</th>
