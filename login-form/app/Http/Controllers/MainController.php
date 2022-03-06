@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\models\Admin;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 class MainController extends Controller
 {
@@ -84,8 +85,11 @@ class MainController extends Controller
     }
 
     function staff() {
-        $data = ['LoggedUserInfo'=>Admin::where('id', '=', session('LoggedUser'))->first()];
-        return view('admin.staff', $data);
+        
+        $datas = Http::get('https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=98f5210265e94c499db61894975633b4');
+       
+        return view('admin.staff',['datas' => $datas['articles']]);
+        
     }
 
     

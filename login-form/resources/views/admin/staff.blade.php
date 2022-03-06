@@ -13,27 +13,21 @@
         <div class="row h-100 justify-content-center align-items-center align-content-center flex-column">
             <div class="col-md-6 col-md-offset-3">
                 <h4 class="pt-5">Dashboard</h4><hr>
-                <table class="table table-hover">
-                    <thead>
-                        <th>Name</th>
-                        <th>email</th>
-                        <th></th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td> {{$LoggedUserInfo['name']}}</td>
-                            <td>{{$LoggedUserInfo['email']}}</td>
-                            <td><a href=" {{ route('auth.logout')}}">Logout</a></td>
-                        </tr>
-                    </tbody>
-                </table>
 
-                <ul>
-                    <li><a href="/admin/dashboard">dashboard</a></li>
-                    <li><a href="/admin/profile">profile</a></li>
-                    <li><a href="/admin/settings">settings</a></li>
-                    <li><a href="/admin/staff">staff</a></li>
-                </ul>
+                <div class="row">
+          
+                    @foreach($datas as $item)
+                   
+                    <div class="col-6 card  text-white bg-primary mb-3 px-2">
+                        
+                        <li>{{$item['author']}}</li>
+                    </div>
+                    <div class=" col-6 card text-dark bg-info mb-3 px-2">
+                        
+                        <li>{{$item['title']}}</li>
+                    </div>
+                    @endforeach
+                  </div>
             </div>
         </div>
     </div>
