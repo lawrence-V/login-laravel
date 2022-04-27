@@ -29,8 +29,10 @@ Route::get('/auth/logout',[MainController::class, 'logout'])->name('auth.logout'
 Route::group(['middleware' =>['Authcheck']], function() {
     Route::get('/auth/login',[MainController::class, 'login'])->name('auth.login');
     Route::get('/auth/register',[MainController::class, 'register'])->name('auth.register');   
-
+    Route::get('/movies/{movie}',[MainController::class, 'show'])->name('movies.show');
+ 
     Route::get('/admin/dashboard',[MainController::class, 'dashboard']);
+   
     Route::get('/admin/settings',[MainController::class, 'settings']);
     Route::get('/admin/profile',[MainController::class, 'profile']);
     Route::get('/admin/staff',[MainController::class, 'staff']);

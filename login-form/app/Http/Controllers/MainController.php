@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\models\Admin;
+use App\ViewModels\MovieViewModel;
+use App\ViewModels\MoviesViewModel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
@@ -70,8 +72,30 @@ class MainController extends Controller
     }
 
     function dashboard() {
-        $data = ['LoggedUserInfo'=>Admin::where('id', '=', session('LoggedUser'))->first()];
-        return view('admin.dashboard', $data);
+        // $data = ['LoggedUserInfo'=>Admin::where('id', '=', session('LoggedUser'))->first()];
+        $Movies = Http::get('https://api.themoviedb.org/3/movie/top_rated?api_key=42ee37e7cc29340133839d96681d2217')
+        ->json()['results'];
+
+        $popularMovies = Http::get('https://api.themoviedb.org/3/movie/popular?api_key=42ee37e7cc29340133839d96681d2217')
+        ->json()['results'];
+
+        $genresArray =  Http::get('https://api.themoviedb.org/3/genre/movie/list?api_key=42ee37e7cc29340133839d96681d2217')
+        ->json()['genres'];
+
+        $genres = collect($genresArray)->mapWithKeys(function ($genre) {
+            return [$genre['id'] => $genre['name']];
+        } );
+
+        dump($popularMovies);
+
+         return view('admin.dashboard',
+         [
+             'data' => $Movies,
+             'popularMovies' => $popularMovies,
+             'genres' => $genres,
+        
+        ]);
+  
     }
 
     function settings() {
@@ -86,10 +110,25 @@ class MainController extends Controller
 
     function staff() {
         
-        $datas = Http::get('https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=98f5210265e94c499db61894975633b4');
-       
-        return view('admin.staff',['datas' => $datas['articles']]);
+        $Movies = Http::get('https://api.themoviedb.org/3/movie/top_rated?api_key=42ee37e7cc29340133839d96681d2217')
+        ->json()['results'];
+
+        dump($Movies);
+
+        return view('admin.dashboard',['data' => $Movies]);
         
+    }
+
+
+   function show($id) {
+
+      $movies = Http::get('https://api.themoviedb.org/3/movie/'.$id.'?api_key=42ee37e7cc29340133839d96681d2217')
+        ->json();
+
+    // dump($movies);
+        return view('movies.show', [
+            'movie' => $movies,
+        ]);
     }
 
     
