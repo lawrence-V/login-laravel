@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\models\Admin;
-use App\ViewModels\MovieViewModel;
-use App\ViewModels\MoviesViewModel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
@@ -125,7 +123,7 @@ class MainController extends Controller
       $movies = Http::get('https://api.themoviedb.org/3/movie/'.$id.'?api_key=42ee37e7cc29340133839d96681d2217')
         ->json();
 
-    // dump($movies);
+    dump($movies);
         return view('movies.show', [
             'movie' => $movies,
         ]);
