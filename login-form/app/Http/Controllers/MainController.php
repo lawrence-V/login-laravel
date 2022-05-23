@@ -12,6 +12,9 @@ class MainController extends Controller
     function login() {
         return view('auth.login');
     }
+    function Showdashboard() {
+        return view('admin.dashboard');
+    }
 
     function register() {
         return view('auth.register');
@@ -65,7 +68,7 @@ class MainController extends Controller
     function logout() {
         if(session()->has('LoggedUser')){
             session()->pull('LoggedUser');
-            return redirect('/auth/login');
+            return redirect('/');
         }
     }
 
@@ -84,7 +87,7 @@ class MainController extends Controller
             return [$genre['id'] => $genre['name']];
         } );
 
-        dump($popularMovies);
+        // dump($popularMovies);
 
          return view('admin.dashboard',
          [
@@ -111,7 +114,7 @@ class MainController extends Controller
         $Movies = Http::get('https://api.themoviedb.org/3/movie/top_rated?api_key=42ee37e7cc29340133839d96681d2217')
         ->json()['results'];
 
-        dump($Movies);
+        // dump($Movies);
 
         return view('admin.dashboard',['data' => $Movies]);
         
@@ -120,12 +123,15 @@ class MainController extends Controller
 
    function show($id) {
 
-      $movies = Http::get('https://api.themoviedb.org/3/movie/'.$id.'?api_key=42ee37e7cc29340133839d96681d2217')
+      $movies = Http::get('https://api.themoviedb.org/3/movie/'.$id.'?api_key=42ee37e7cc29340133839d96681d2217&append_to_response=credits,videos,images')
         ->json();
 
-    dump($movies);
+
+
+    //    dump($movies);
         return view('movies.show', [
             'movie' => $movies,
+
         ]);
     }
 
